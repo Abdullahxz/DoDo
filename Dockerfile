@@ -16,8 +16,9 @@ RUN pip install --upgrade pip \
     && pip install -r requirements.txt
 
 RUN useradd -m -u 1000 -s /bin/bash django_user
-USER django_user
 
 RUN chmod +x docker-entrypoint.sh
+
+USER django_user
 
 CMD [ "sh", "docker-entrypoint.sh" ]

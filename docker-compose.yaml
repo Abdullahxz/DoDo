@@ -8,6 +8,12 @@ services:
       POSTGRES_DB: dodo
       POSTGRES_USER: dodo_user
       POSTGRES_PASSWORD: dodo_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "dodo"]
+      interval: 5s
+      timeout: 30s
+      retries: 3
+      start_period: 10s
     networks:
       - dodo_net
 
@@ -24,7 +30,8 @@ services:
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - dodo_net
 
